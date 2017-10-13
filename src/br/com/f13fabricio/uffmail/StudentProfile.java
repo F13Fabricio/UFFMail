@@ -27,12 +27,24 @@ public class StudentProfile {
 		this.status = status;
 	}
 	
+	/*Cada posição do array 'fields' corresponte a uma informação do perfil
+	 * 0 -> Nome
+	 * 1 -> Matrícula
+	 * 2 -> telefone
+	 * 3 -> email
+	 * 4 -> uffmail
+	 * 5 -> status
+	 */
+	public StudentProfile(String[] fields) {
+		this(fields[0], fields[1], fields[2], fields[3], fields[4], fields[5]);
+	}
+	
 	public String getEnrollment() {
 		return enrollment;
 	}
 	
 	public String getUffmail() {
-		return enrollment;
+		return uffmail;
 	}
 	
 	public String getStatus() {
