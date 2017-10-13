@@ -47,6 +47,7 @@ public class ProfileManager {
 				return new StudentProfile(fields);
 			}
 		}
+		return null;
 	}
 
 }

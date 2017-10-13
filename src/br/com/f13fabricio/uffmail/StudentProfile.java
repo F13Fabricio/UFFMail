@@ -12,12 +12,13 @@ public class StudentProfile {
 	private String uffmail;
 	private String status;
 	
-	public StudentProfile(String enrollment,
-						  String name,
-						  String phone,
-						  String email,
-						  String uffmail,
-						  String status) {
+	public StudentProfile(
+			String enrollment,
+			String name,
+			String phone,
+			String email,
+			String uffmail,
+			String status) {
 		
 		this.enrollment = enrollment;
 		this.name = name;
