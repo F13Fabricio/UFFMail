@@ -13,15 +13,15 @@ public class StudentProfile {
 	private String status;
 	
 	public StudentProfile(
-			String enrollment,
 			String name,
+			String enrollment,
 			String phone,
 			String email,
 			String uffmail,
 			String status) {
 		
-		this.enrollment = enrollment;
 		this.name = name;
+		this.enrollment = enrollment;
 		this.phone = phone;
 		this.email = email;
 		this.uffmail = uffmail;

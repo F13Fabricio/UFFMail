@@ -45,7 +45,7 @@ public class ProfileManager {
 			while ((line = br.readLine()) != null) {
 				String[] fields = line.split(csvRegex);
 				/*A posição 1 do array corresponte a matrícula*/
-				if (enrollment.equals(fields[1]));
+				if (enrollment.equals(fields[1]))
 					return new StudentProfile(fields);
 			}
 		}
