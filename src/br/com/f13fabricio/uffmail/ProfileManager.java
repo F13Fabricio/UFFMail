@@ -5,10 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-/* 
- * O aluno pode está com o status Ativo ou Inativo.
- * Somente o status como Ativo permite ao estudante solicite a criação de um UFFMail.
- */
 
 public class ProfileManager {
 	
@@ -51,6 +47,13 @@ public class ProfileManager {
 		}
 		/*Caso a matrícula informada não seje encontrada retorna null*/
 		return null;
+	}
+	
+	/* O estudante só pode requisitar a criação de um uffmail se ainda não posui um uffmail e
+	 * seu status está com Ativo.
+	 */
+	public boolean validateUffmailCreationRequest(StudentProfile profile) {
+		return (profile.getUffmail().equals("")) && (profile.getStatus().equals(StudentProfile.ACTIVE));
 	}
 
 }

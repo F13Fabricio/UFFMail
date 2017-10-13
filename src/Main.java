@@ -1,4 +1,4 @@
-package br.com.f13fabricio.uffmail;
+import br.com.f13fabricio.uffmail.*;
 
 public class Main {
 
@@ -11,8 +11,10 @@ public class Main {
 		
 		/*teste do método mapProfile*/
 		try {
-			StudentProfile profile = manager.mapProfile("105473");
-			System.out.print(profile.getEnrollment());
+			StudentProfile profile = manager.mapProfile("106943");
+			System.out.print(profile.getUffmail());
+			/*teste do método validateUffmailCreationRequest()*/
+			System.out.print(manager.validateUffmailCreationRequest(profile));
 		}
 		catch (Exception e) {
 			e.printStackTrace();
