@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
 
 public class ProfileManager {
@@ -54,6 +55,42 @@ public class ProfileManager {
 	 */
 	public boolean validateUffmailCreationRequest(StudentProfile profile) {
 		return (profile.getUffmail().equals("")) && (profile.getStatus().equals(StudentProfile.ACTIVE));
+	}
+	
+	public ArrayList<UsernameSuggestion> getUsernameSuggestions(String name) 
+			throws IllegalArgumentException {
+		String _name;
+		String words[];
+		String pattern = "(?i)(\\w)(\\s+)(e|do|da|do|das|de|di|du)(\\s+)(\\w)";
+		
+		ArrayList<UsernameSuggestion> validSuggestions;
+		ArrayList<UsernameSuggestion> invalidSuggestions;
+		
+		if (name == "")
+			throw new IllegalArgumentException("O nome não existe.");
+		_name = name.replaceAll(pattern, "$1 $5"); //REVISAR
+		words = _name.split(" ");
+		if (words.length < 2)
+			throw new IllegalArgumentException("O nome: " + name + " é um nome inválido.");
+		
+		/* Gerar as 5 sugestões de email */
+		
+		validSuggestions = new ArrayList<>();
+		invalidSuggestions = new ArrayList<>();
+		
+		/* primeiro nome + "_" + segundo nome */
+		validSuggestions.add(new UsernameSuggestion(words[0] + "_" + words[1]));
+		/* primeironome + primeira letra do do segundo + primeira letra do último */
+		validSuggestions.add(new UsernameSuggestion(words[0] + words[1].substring(0, 1) + words[words.length].substring(0, 1)));
+		/* primeiro nome + segundo nome */
+		validSuggestions.add(new UsernameSuggestion(words[0] + words[1]));
+		/* primeira letra do primeiro nome + segundo nome */
+		validSuggestions.add(new UsernameSuggestion(words[0].substring(0, 1) + words[2]));
+		/* primeira letra do primeiro nome + segundo nome + último nome */
+		validSuggestions.add(new UsernameSuggestion(words[0].substring(0, 1) + words[1] + words[words.length]));
+		
+		return validSuggestions;
+		
 	}
 
 }
