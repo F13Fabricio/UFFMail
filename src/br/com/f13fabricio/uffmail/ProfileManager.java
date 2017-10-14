@@ -81,13 +81,13 @@ public class ProfileManager {
 		/* primeiro nome + "_" + segundo nome */
 		validSuggestions.add(new UsernameSuggestion(words[0] + "_" + words[1]));
 		/* primeironome + primeira letra do do segundo + primeira letra do último */
-		validSuggestions.add(new UsernameSuggestion(words[0] + words[1].substring(0, 1) + words[words.length].substring(0, 1)));
+		validSuggestions.add(new UsernameSuggestion(words[0] + words[1].substring(0, 1) + words[words.length - 1].substring(0, 1)));
 		/* primeiro nome + segundo nome */
 		validSuggestions.add(new UsernameSuggestion(words[0] + words[1]));
 		/* primeira letra do primeiro nome + segundo nome */
 		validSuggestions.add(new UsernameSuggestion(words[0].substring(0, 1) + words[2]));
 		/* primeira letra do primeiro nome + segundo nome + último nome */
-		validSuggestions.add(new UsernameSuggestion(words[0].substring(0, 1) + words[1] + words[words.length]));
+		validSuggestions.add(new UsernameSuggestion(words[0].substring(0, 1) + words[1] + words[words.length - 1]));
 		
 		return validSuggestions;
 		
