@@ -1,9 +1,13 @@
 package br.com.f13fabricio.uffmail;
 
+import java.util.ArrayList;
+
 public class StudentProfile {
 	
 	public static final String ACTIVE = "Ativo";
 	public static final String INACTIVE = "Inativo";
+	
+	private ArrayList<UsernameSuggestion> usernameSuggestions;
 
 	private String enrollment;
 	private String name;
@@ -40,6 +44,10 @@ public class StudentProfile {
 		this(fields[0], fields[1], fields[2], fields[3], fields[4], fields[5]);
 	}
 	
+	public String getName() {
+		return name;
+	}
+	
 	public String getEnrollment() {
 		return enrollment;
 	}
@@ -50,5 +58,13 @@ public class StudentProfile {
 	
 	public String getStatus() {
 		return status;
+	}
+	
+	public ArrayList<UsernameSuggestion> getUsernameSuggestion() {
+		return usernameSuggestions;
+	}
+	
+	public void setUsernameSuggestion(ArrayList<UsernameSuggestion> suggestion) {
+		usernameSuggestions = suggestion;
 	}
 }
