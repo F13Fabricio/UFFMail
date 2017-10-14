@@ -69,6 +69,7 @@ public class ProfileManager {
 		if (name == "")
 			throw new IllegalArgumentException("O nome não existe.");
 		_name = name.replaceAll(pattern, "$1 $5"); //REVISAR
+		_name = _name.toLowerCase();
 		words = _name.split(" ");
 		if (words.length < 2)
 			throw new IllegalArgumentException("O nome: " + name + " é um nome inválido.");
