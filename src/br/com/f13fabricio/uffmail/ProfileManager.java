@@ -58,13 +58,11 @@ public class ProfileManager {
 	}
 	
 	public ArrayList<UsernameSuggestion> getUsernameSuggestions(String name) 
-			throws IllegalArgumentException {
+			throws IllegalArgumentException, IOException{
 		String _name;
 		String words[];
 		String pattern = "(?i)(\\w)(\\s+)(e|do|da|do|das|de|di|du)(\\s+)(\\w)";
-		
-		ArrayList<UsernameSuggestion> validSuggestions;
-		ArrayList<UsernameSuggestion> invalidSuggestions;
+		ArrayList<UsernameSuggestion> suggestions;
 		
 		if (name == "")
 			throw new IllegalArgumentException("O nome não existe.");
@@ -76,22 +74,65 @@ public class ProfileManager {
 		
 		/* Gerar as 5 sugestões de email */
 		
-		validSuggestions = new ArrayList<>();
-		invalidSuggestions = new ArrayList<>();
+		suggestions = new ArrayList<>();
 		
 		/* primeiro nome + "_" + segundo nome */
-		validSuggestions.add(new UsernameSuggestion(words[0] + "_" + words[1]));
+		suggestions.add(new UsernameSuggestion(words[0] + "_" + words[1]));
 		/* primeironome + primeira letra do do segundo + primeira letra do último */
-		validSuggestions.add(new UsernameSuggestion(words[0] + words[1].substring(0, 1) + words[words.length - 1].substring(0, 1)));
+		suggestions.add(new UsernameSuggestion(words[0] + words[1].substring(0, 1) + words[words.length - 1].substring(0, 1)));
 		/* primeiro nome + segundo nome */
-		validSuggestions.add(new UsernameSuggestion(words[0] + words[1]));
+		suggestions.add(new UsernameSuggestion(words[0] + words[1]));
 		/* primeira letra do primeiro nome + segundo nome */
-		validSuggestions.add(new UsernameSuggestion(words[0].substring(0, 1) + words[2]));
+		suggestions.add(new UsernameSuggestion(words[0].substring(0, 1) + words[1]));
 		/* primeira letra do primeiro nome + segundo nome + último nome */
-		validSuggestions.add(new UsernameSuggestion(words[0].substring(0, 1) + words[1] + words[words.length - 1]));
+		suggestions.add(new UsernameSuggestion(words[0].substring(0, 1) + words[1] + words[words.length - 1]));
+		
+		/* retorna as sugestões já atualizadas */
+		return updateSuggestions(suggestions);
+		
+	}
+	
+	public ArrayList<UsernameSuggestion> updateSuggestions(ArrayList<UsernameSuggestion> s) 
+			throws IOException{
+		
+		if (s == null)
+			return null;
+		ArrayList<UsernameSuggestion> suggestions = new ArrayList<>(s);
+		ArrayList<UsernameSuggestion> validSuggestions = new ArrayList<>();
+		ArrayList<UsernameSuggestion> invalidSuggestions = new ArrayList<>();
+		String line;
+		
+		do {
+			/* Atualizar sugestões inválidas, se existir */
+			for (int i = 0; i < invalidSuggestions.size(); i++) {
+				invalidSuggestions.get(i).nextSuggestion();
+				suggestions.add(invalidSuggestions.get(i));
+			}
+			invalidSuggestions.clear();
+			
+			/* Verifica se alguma sugestão corresponde a um uffmail já existente. */
+			try (BufferedReader br = new BufferedReader(new FileReader(dataBase))) {
+				
+				while (!suggestions.isEmpty() && (line = br.readLine()) != null) {
+					String[] fields = line.split(csvRegex);
+					for (int i = 0; i < suggestions.size(); i++) {
+						if (suggestions.get(i).getSuggestion().equals(fields[4])) {
+							invalidSuggestions.add(suggestions.remove(i));
+						}
+					}
+				}
+				/*
+				 *  Adiciona todas as sugestões que passaram no teste na lsta de válidos 
+				 *  para que não pricisem ser mais testadas
+				 */
+				validSuggestions.addAll(suggestions);
+				suggestions.clear();
+			}
+			
+		}
+		while (!invalidSuggestions.isEmpty());
 		
 		return validSuggestions;
-		
 	}
 
 }
