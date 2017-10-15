@@ -31,11 +31,15 @@ public class ProfileManager {
 		this.csvRegex = regex;
 	}
 	
-	public StudentProfile mapProfile(String enrollment) throws NullPointerException, IOException {
+	public StudentProfile mapProfile(String enrollment) 
+			throws NullPointerException, IllegalArgumentException, IOException {
 		String line = "";
-		/*Se a base de dados não informada é lançada uma NullPoiterException*/
+		/* Se a base de dados não informada é lançada uma NullPoiterException*/
 		if (dataBase == null) 
 			throw new NullPointerException("Profile Manager não vinculado com uma base de dados.");
+		/* Verifica se a string corresponte a uma possível matrícula */
+		if (enrollment == "" || !enrollment.matches("^[0-9]*$"))
+			throw new IllegalArgumentException("Matícula inválida.");
 		
 		try (BufferedReader br = new BufferedReader(new FileReader(dataBase))) {
 			
@@ -46,7 +50,7 @@ public class ProfileManager {
 					return new StudentProfile(fields);
 			}
 		}
-		/*Caso a matrícula informada não seje encontrada retorna null*/
+		/* Caso a matrícula informada não seje encontrada retorna null*/
 		return null;
 	}
 	
@@ -61,12 +65,12 @@ public class ProfileManager {
 			throws IllegalArgumentException, IOException{
 		String _name;
 		String words[];
-		String pattern = "(?i)(\\w)(\\s+)(e|do|da|do|das|de|di|du)(\\s+)(\\w)";
+		String pattern = "(?i)(\\w)(\\s+)(e|do|da|dos|das|de|di|du)(\\s+)(\\w)";
 		ArrayList<UsernameSuggestion> suggestions;
 		
 		if (name == "")
 			throw new IllegalArgumentException("O nome não existe.");
-		_name = name.replaceAll(pattern, "$1 $5"); //REVISAR
+		_name = name.replaceAll(pattern, "$1 $5");
 		_name = _name.toLowerCase();
 		words = _name.split(" ");
 		if (words.length < 2)
@@ -80,8 +84,8 @@ public class ProfileManager {
 		suggestions.add(new UsernameSuggestion(words[0] + "_" + words[1]));
 		/* primeironome + primeira letra do do segundo + primeira letra do último */
 		suggestions.add(new UsernameSuggestion(words[0] + words[1].substring(0, 1) + words[words.length - 1].substring(0, 1)));
-		/* primeiro nome + segundo nome */
-		suggestions.add(new UsernameSuggestion(words[0] + words[1]));
+		/* primeiro nome + último nome */
+		suggestions.add(new UsernameSuggestion(words[0] + words[words.length - 1]));
 		/* primeira letra do primeiro nome + segundo nome */
 		suggestions.add(new UsernameSuggestion(words[0].substring(0, 1) + words[1]));
 		/* primeira letra do primeiro nome + segundo nome + último nome */
@@ -121,9 +125,8 @@ public class ProfileManager {
 						}
 					}
 				}
-				/*
-				 *  Adiciona todas as sugestões que passaram no teste na lsta de válidos 
-				 *  para que não pricisem ser mais testadas
+				/* Adiciona todas as sugestões que passaram no teste na lsta de válidos 
+				 * para que não pricisem ser mais testadas
 				 */
 				validSuggestions.addAll(suggestions);
 				suggestions.clear();
