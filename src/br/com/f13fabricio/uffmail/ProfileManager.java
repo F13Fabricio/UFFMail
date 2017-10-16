@@ -146,27 +146,32 @@ public class ProfileManager {
 	 */
 	public void storeProfile(StudentProfile profile) throws NullPointerException, IOException {
 		String line = "";
+		boolean found = false;
 		
 		/* Se a base de dados não informada é lançada uma NullPoiterException*/
 		if (dataBase == null) 
 			throw new NullPointerException("Profile Manager não vinculado com uma base de dados.");
 		
 		try (BufferedReader br = new BufferedReader(new FileReader(dataBase)) ;
-				BufferedWriter bw = new BufferedWriter(new FileWriter("copy_" + dataBase))) {
+				BufferedWriter bw = new BufferedWriter(new FileWriter(dataBase + ".copy"))) {
 			
 			while ((line = br.readLine()) != null) {
-				String[] fields = line.split(csvRegex);
-				/*A posição 1 do array corresponte a matrícula*/
-				if (profile.getEnrollment().equals(fields[1]))
-					bw.write(profile.getFormattedProfile());
-				else {
-					bw.write(line);
-					bw.write('\n');
+				if (!found) {
+					String[] fields = line.split(csvRegex);
+					/*A posição 1 do array corresponte a matrícula*/
+					if (profile.getEnrollment().equals(fields[1])) {
+						bw.write(profile.getFormattedProfile());
+						bw.write('\n');
+						found = true;
+						continue;
+					}
 				}
+				bw.write(line);
+				bw.write('\n');
 			}
 		}
 		(new File(dataBase)).delete();
-		(new File("copy_" + dataBase)).renameTo(new File(dataBase));
+		(new File(dataBase + ".copy")).renameTo(new File(dataBase));
 	}
 
 }

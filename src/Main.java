@@ -13,7 +13,7 @@ public class Main {
 		
 		/*teste do método mapProfile*/
 		try {
-			StudentProfile profile = manager.mapProfile("105457");
+			StudentProfile profile = manager.mapProfile("102658");
 			System.out.print(profile.getUffmail());
 			/*teste do método validateUffmailCreationRequest()*/
 			System.out.print(manager.validateUffmailCreationRequest(profile));
@@ -23,6 +23,10 @@ public class Main {
 			for (UsernameSuggestion s : profile.getUsernameSuggestion()) {
 				System.out.println(s.getSuggestion());
 			}
+			
+			profile.setUffmail(1);
+			
+			manager.storeProfile(profile);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
