@@ -56,6 +56,10 @@ public class StudentProfile {
 		return uffmail;
 	}
 	
+	public void setUffmail(int index) {
+		uffmail = usernameSuggestions.get(index).getSuggestion();
+	}
+	
 	public String getStatus() {
 		return status;
 	}
