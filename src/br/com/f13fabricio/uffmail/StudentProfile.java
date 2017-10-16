@@ -60,6 +60,23 @@ public class StudentProfile {
 		return status;
 	}
 	
+	/* Retorna uma string com os dados do perfil na formatação do aquivo csv */
+	public String getFormattedProfile() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(name);
+		sb.append(",");
+		sb.append(enrollment);
+		sb.append(",");
+		sb.append(phone);
+		sb.append(",");
+		sb.append(email);
+		sb.append(",");
+		sb.append(uffmail);
+		sb.append(",");
+		sb.append(status);
+		return sb.toString();
+	}
+	
 	public ArrayList<UsernameSuggestion> getUsernameSuggestion() {
 		return usernameSuggestions;
 	}

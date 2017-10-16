@@ -1,8 +1,10 @@
 package br.com.f13fabricio.uffmail;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -136,6 +138,26 @@ public class ProfileManager {
 		while (!invalidSuggestions.isEmpty());
 		
 		return validSuggestions;
+	}
+	
+	/* Guarda o perfil do aluno no csv. Para isso faz uma cópia do arquivo original até
+	 * a chave correspondente salva o perfil e continua com a cópia.
+	 */
+	public void storeProfile(StudentProfile profile) {
+		String line = "";
+		if (profile == null)
+			throw new NullPointerException();
+		
+		try (BufferedReader br = new BufferedReader(new FileReader(dataBase)) ;
+				BufferedWriter bw = new BufferedWriter(new FileWriter("lkjlk.sd"))) {
+			
+			while ((line = br.readLine()) != null) {
+				String[] fields = line.split(csvRegex);
+				/*A posição 1 do array corresponte a matrícula*/
+				if (profile.getEnrollment().equals(fields[1]))
+					bw.write(str);
+			}
+		}
 	}
 
 }
