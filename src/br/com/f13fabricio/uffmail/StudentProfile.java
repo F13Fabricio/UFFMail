@@ -52,17 +52,25 @@ public class StudentProfile {
 		return enrollment;
 	}
 	
-	public String getUffmail() {
-		return uffmail;
+	public String getPhone() {
+		return phone;
 	}
 	
-	public void setUffmail(int index) {
-		uffmail = usernameSuggestions.get(index).getSuggestion();
+	public String GetEmail() {
+		return email;
+	}
+	
+	public String getUffmail() {
+		return uffmail;
 	}
 	
 	public String getStatus() {
 		return status;
 	}
+	public void setUffmail(int index) {
+		uffmail = usernameSuggestions.get(index).getSuggestion();
+	}
+	
 	
 	/* Retorna uma string com os dados do perfil na formatação do aquivo csv */
 	public String getFormattedProfile() {
