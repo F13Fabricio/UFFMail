@@ -27,3 +27,7 @@ Laura, por favor escolha uma das opções abaixo para o seu UFFMail
 A criação de seu e-mail (laura_azevedo@id.uff.br) será feita nos próximos minutos.
 Um SMS foi enviado para 99999-9971 com a sua senha de acesso.
 ```
+**Ambiente de Desenvolvimento**
+Sistema Operacional: Windows 10
+IDE: Eclipse Oxygen
+Versão do Java: 9
